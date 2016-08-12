@@ -17,17 +17,21 @@ class Parser {
 		switch($file_ext) {
          
          case 'xml':
-            $list = simplexml_load_file($file_tmp);
-            
-            /*while ($data = fgets($fp)) {
-               if (!xml_parse($xml_parser, $data, feof($fp))) {
-                  echo "XML Error: ".xml_error_string(xml_get_error_code($xml_parser));
-                  echo " at line ".xml_get_current_line_number($xml_parser);
+            $parser = xml_parser_create();
+            $handle = fopen($file_tmp, "r");
+            //$data = fread($handle, filesize($file_tmp));
+            //var_dump($data);
+            while ($data = fread($handle, filesize($file_tmp))) {
+               if (!xml_parse($parser, $data, feof($file_tmp))) {
+                  echo "XML Error: ".xml_error_string(xml_get_error_code($parser));
+                  echo " at line ".xml_get_current_line_number($parser);
                   break;   
                }
             
             }
-            xml_parser_free($xml_parser);*/
+            xml_parser_free($parser);
+
+            $list = simplexml_load_file($file_tmp);
             $workers = $this->isXML($list);
             break;
          
@@ -82,7 +86,8 @@ class Parser {
       return $items;
    }
 
-	public function getWorkers() {
-
-	}
+	/*protected function isFormat() {
+         
+         same code
+	}*/
 }

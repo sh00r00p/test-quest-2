@@ -4,18 +4,17 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);*/
 
-//if(isset($_POST['submit'])) {
-  if(isset($_FILES['file'])) {
-    $file = $_FILES['file'];
-    $data = $_POST;
-    $formData = array_merge($file, $data);
+if(isset($_FILES['file'])) {
+  $file = $_FILES['file'];
+  $data = $_POST;
+  $formData = array_merge($file, $data);
 
-    require_once __DIR__ . '/helper.php';
+  require_once __DIR__ . '/helper.php';
 
-    $class = new Parser();
-    $list = $class->parseData($formData);
-  }
-//}
+  $class = new Parser();
+  $list = $class->parseData($formData);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +43,7 @@ ini_set('display_startup_errors', 1);*/
     </style>
   </head>
   <body>
-    <?php if(isset($list)) : ?>
+    <?php if(!empty($list)) : ?>
       <div class="table">
         <p class="header"><?php echo 'Полученные из источника данные необходимо выводить на страницу в виде таблицы.©'; ?></p>
         <table class="workers">
