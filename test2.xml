@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+     <workers>
+         <worker>
+             <fname>Иван</fname>
+             <lname>Иванов</lname>
+             <mname>Иванович</mname>
+             <birth_date>1980-01-01</birth_date>
+             <comment>какой-то текст</comment>
+         </worker>
+         <worker>
+             <fname>Петр</fname>
+             <lname>Петров</lname>
+             <mname><Иванович/mname>
+             <birth_date>1982-05-01</birth_date>
+             <comment>Какой-то текст</comment>
+         </worker>
+     </workers>
+</xml>

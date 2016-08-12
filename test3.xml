@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+     <workers>
+         <worker>
+             <param name="first_name">Иван</param>
+             <param name="last_name">Иванов</param>
+             <param name="middle_name">Иванович</param>
+             <param name="birth_date">1980-01-01</param>
+             <param name="comment">какой-то текст</param>
+         </worker>
+         <worker>
+             <param name="first_name">Петр</param>
+             <param name="last_name">Петров</param>
+             <param name="middle_name">Иванович</param>
+             <param name="birth_date">1982-05-01</param>
+             <param name="comment">Какой-то текст</param>
+         </worker>
+     </workers>
