@@ -4,18 +4,20 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);*/
 
-require_once __DIR__ . '/helper.php';
+//if(isset($_POST['submit'])) {
+  if(isset($_FILES['file'])) {
+    $file = $_FILES['file'];
+    $data = $_POST;
+    $formData = array_merge($file, $data);
 
-$class = new Parser();
+    require_once __DIR__ . '/helper.php';
 
-if(isset($_FILES['file'])) {
-  $file = $_FILES['file'];
-  $data = $_POST;
-  $formData = array_merge($file, $data);
-  $list = $class->parseData($formData);
-}
-
+    $class = new Parser();
+    $list = $class->parseData($formData);
+  }
+//}
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -37,23 +39,21 @@ if(isset($_FILES['file'])) {
         padding: 5px;
         border: 1px solid #000;
       }
-      .header {
-        text-align: center;
-        font-family: sans-serif;
-      }
+      .header { text-align: center; }
+      body { font-family: sans-serif; }
     </style>
   </head>
   <body>
-    <?php if($list) : ?>
+    <?php if(isset($list)) : ?>
       <div class="table">
-        <p class="header"><?php echo 'Полученные из источника данные необходимо выводить на страницу в виде таблицы.'; ?></p>
+        <p class="header"><?php echo 'Полученные из источника данные необходимо выводить на страницу в виде таблицы.©'; ?></p>
         <table class="workers">
           <tr>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Отчество</th>
-            <th>Дата рождения</th>
-            <th>Комментарий</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Middle name</th>
+            <th>Birth date</th>
+            <th>Comment</th>
           </tr>
           <?php foreach($list as $value) : 
             
@@ -66,6 +66,7 @@ if(isset($_FILES['file'])) {
         <?php endforeach; ?>
         </table>
       </div>
+      <div class="new"><p><a href="/">Upload new file</a></p></div>
     <?php else : ?>
     <div class="form">
       <form id="upload" action="" method="post" enctype="multipart/form-data">
@@ -74,12 +75,12 @@ if(isset($_FILES['file'])) {
             <label>Upload file:</label>
             <input type="file" name="file">
           </div>
-          <div class="field">
+          <!--div class="field">
             <label>Change format:</label>
               <input type="checkbox" name="format" value="xml">XML
               <input type="checkbox" name="format" value="csv">CSV
-          </div>
-          <input type="submit" value="Submit">
+          </div-->
+          <input type="submit" name="submit" value="Submit">
         </div>
       </form>
     </div>

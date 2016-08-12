@@ -17,8 +17,18 @@ class Parser {
 		switch($file_ext) {
          
          case 'xml':
-            $xml_list = simplexml_load_file($file_tmp);
-            $this->isXML($xml_list);
+            $list = simplexml_load_file($file_tmp);
+            
+            /*while ($data = fgets($fp)) {
+               if (!xml_parse($xml_parser, $data, feof($fp))) {
+                  echo "XML Error: ".xml_error_string(xml_get_error_code($xml_parser));
+                  echo " at line ".xml_get_current_line_number($xml_parser);
+                  break;   
+               }
+            
+            }
+            xml_parser_free($xml_parser);*/
+            $workers = $this->isXML($list);
             break;
          
          case 'csv':
@@ -41,20 +51,25 @@ class Parser {
 
 	}
 
-   function isXML($list) {
+   protected function isXML($list) {
 
-      foreach($list as $worker){
-         if($worker->param) 
+      $items = array();
+      
+      foreach($list->worker as $worker) {
+          if($worker->param) { 
             $format = 'xml1';
-         else
+            
+         } else {
             $format = 'xml2';
+         }
+
+         $items[] = $worker;  
       }
-
-      var_dump($format);
-
+     
+      return $items;
    }
 
-   function isCSV($list) {
+   protected function isCSV($list) {
 
       $items = array();
       $items_keys = array('fname', 'lname', 'mname', 'birth_date', 'comment');
