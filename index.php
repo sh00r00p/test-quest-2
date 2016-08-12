@@ -4,7 +4,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);*/
 
-if(isset($_FILES['file'])) {
+if((isset($_FILES['file'])) || (isset($_POST['file_link'])) || (isset($_POST['file_code']))) {
   $file = $_FILES['file'];
   $data = $_POST;
   $formData = array_merge($file, $data);
@@ -78,6 +78,14 @@ if(isset($_FILES['file'])) {
             <label>Change format:</label>
               <input type="checkbox" name="format" value="xml">XML
               <input type="checkbox" name="format" value="csv">CSV
+          </div>
+          <div class="field">
+            <label>File link:</label>
+            <input type="text" name="file_link">
+          </div>
+          <div class="field">
+            <label>Source code:</label>
+            <textarea name="file_code"></textarea>
           </div-->
           <input type="submit" name="submit" value="Submit">
         </div>

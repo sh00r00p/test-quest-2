@@ -1,12 +1,13 @@
 <?php
 
-/*ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);*/
-
+//init  our class for parsing
 class Parser {
 
-	public function parseData($formData) {
+	/*
+      general input function
+      must be access anywere
+   */
+   public function parseData($formData) {
 
       $file_name = $formData['name'];
 		$file_type = $formData['type'];
@@ -14,47 +15,58 @@ class Parser {
 		$file_size = $formData['size'];
 		$file_ext = end(explode('/', $file_type));
 
-		switch($file_ext) {
+		if(!empty($file_name)) {
+         switch($file_ext) {
          
-         case 'xml':
-            $parser = xml_parser_create();
-            $handle = fopen($file_tmp, "r");
-            //$data = fread($handle, filesize($file_tmp));
-            //var_dump($data);
-            while ($data = fread($handle, filesize($file_tmp))) {
-               if (!xml_parse($parser, $data, feof($file_tmp))) {
-                  echo "XML Error: ".xml_error_string(xml_get_error_code($parser));
-                  echo " at line ".xml_get_current_line_number($parser);
-                  break;   
+            case 'xml':
+               
+               //chech errors
+               $parser = xml_parser_create();
+               $handle = fopen($file_tmp, "r");
+               while ($data = fread($handle, filesize($file_tmp))) {
+                  if (!xml_parse($parser, $data, feof($file_tmp))) {
+                     echo "XML Error: ".xml_error_string(xml_get_error_code($parser));
+                     echo " at line ".xml_get_current_line_number($parser);
+                     break;   
+                  }
+               
                }
+               xml_parser_free($parser);
+               //chech errors
+
+               $list = simplexml_load_file($file_tmp);
+               $workers = $this->isXML($list);
+               break;
             
-            }
-            xml_parser_free($parser);
+            case 'csv':
+               $csv_str = file_get_contents($file_tmp);
+               $lines = explode(PHP_EOL, $csv_str);
+               $list = array();
+               foreach ($lines as $line) {
+                   $list[] = str_getcsv($line);
+               }
 
-            $list = simplexml_load_file($file_tmp);
-            $workers = $this->isXML($list);
-            break;
-         
-         case 'csv':
-            $csv_str = file_get_contents($file_tmp);
-            $lines = explode(PHP_EOL, $csv_str);
-            $list = array();
-            foreach ($lines as $line) {
-                $list[] = str_getcsv($line);
-            }
+               $workers = $this->isCSV($list);
+               break;
+            
+            /*case 'other format':
+               same code        */
 
-            $workers = $this->isCSV($list);
-            break;
-         
-         /*case 'other format':
-            same code        */
-
+         }
       }
+
+      //for alter sources in form input
+      /*if(($formData['file_link']) || ($formData['file_code'])) {
+
+      }*/
       
       return $workers;
 
 	}
 
+   /*
+      parse function for xml
+   */
    protected function isXML($list) {
 
       $items = array();
@@ -73,6 +85,9 @@ class Parser {
       return $items;
    }
 
+   /*
+      parse function for csv
+   */
    protected function isCSV($list) {
 
       $items = array();
@@ -86,6 +101,10 @@ class Parser {
       return $items;
    }
 
+   /*
+      parse function for 
+      other format
+   */
 	/*protected function isFormat() {
          
          same code
