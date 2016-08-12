@@ -4,7 +4,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);*/
 
+//check POST request fact
 if((isset($_FILES['file'])) || (isset($_POST['file_link'])) || (isset($_POST['file_code']))) {
+  
   $file = $_FILES['file'];
   $data = $_POST;
   $formData = array_merge($file, $data);
@@ -43,6 +45,7 @@ if((isset($_FILES['file'])) || (isset($_POST['file_link'])) || (isset($_POST['fi
     </style>
   </head>
   <body>
+  <!-- if our parser response worker list -->
     <?php if(!empty($list)) : ?>
       <div class="table">
         <p class="header"><?php echo 'Полученные из источника данные необходимо выводить на страницу в виде таблицы.©'; ?></p>
@@ -66,6 +69,7 @@ if((isset($_FILES['file'])) || (isset($_POST['file_link'])) || (isset($_POST['fi
         </table>
       </div>
       <div class="new"><p><a href="/">Upload new file</a></p></div>
+    <!-- default view for upload file/post file link/post file code -->
     <?php else : ?>
     <div class="form">
       <form id="upload" action="" method="post" enctype="multipart/form-data">
